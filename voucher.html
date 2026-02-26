@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>တက်နေ - 6 Rows Voucher</title>
+    
+    <link href="https://mmwebfonts.comquas.com/fonts/?font=pyidaungsu" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        body { 
+            font-family: 'Pyidaungsu', serif; 
+            background: #333; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 15px; 
+            margin: 0;
+        }
+        
+        #voucher-capture { 
+            width: 420px; 
+            background: white; 
+            padding: 20px; 
+            border: 2px solid #0047ab; 
+            box-sizing: border-box;
+        }
+
+        .header { text-align: center; color: #0047ab; margin-bottom: 5px; }
+        .header h1 { margin: 0; font-size: 30px; font-weight: bold; }
+        .header p { margin: 1px 0; font-size: 11px; font-weight: bold; line-height: 1.5; }
+
+        .meta-row { display: flex; justify-content: space-between; margin-top: 10px; font-size: 13px; }
+        
+        .info-section { 
+            margin-top: 8px; 
+            display: flex; 
+            align-items: center; 
+            gap: 5px; 
+            font-size: 14px; 
+        }
+        
+        .input-line { 
+            border: none; 
+            border-bottom: 1px dotted #000; 
+            outline: none; 
+            padding: 0 5px; 
+            font-family: 'Pyidaungsu', serif; 
+            font-size: 14px; 
+            background: transparent;
+        }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; border: 1.8px solid #0047ab; }
+        th, td { border: 1.2px solid #0047ab; padding: 4px 2px; text-align: center; font-size: 13px; height: 28px; }
+        th { background: #e6f0ff; color: #0047ab; padding: 6px 0; }
+        
+        .t-input { width: 100%; border: none; text-align: center; outline: none; background: transparent; font-family: 'Pyidaungsu', serif; font-size: 14px; }
+
+        .footer { display: flex; justify-content: space-between; margin-top: 15px; align-items: flex-start; }
+        .order-no { color: #0047ab; font-size: 20px; font-weight: bold; }
+        
+        .calc-table { width: 160px; border: 1.8px solid #0047ab; }
+        .calc-table td { border: 1.2px solid #0047ab; text-align: left; padding: 5px 8px; font-weight: bold; font-size: 13px; }
+        .res-val { border: none; outline: none; text-align: right; width: 70px; float: right; font-weight: bold; background: transparent; font-family: 'Pyidaungsu', serif; }
+
+        .dl-btn { 
+            background: #28a745; color: white; border: none; padding: 10px 20px; 
+            border-radius: 50px; cursor: pointer; font-size: 15px; font-weight: bold;
+            margin-bottom: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            font-family: 'Pyidaungsu', serif;
+        }
+
+        @media print { .dl-btn { display: none; } }
+    </style>
+</head>
+<body>
+
+    <button class="dl-btn" onclick="downloadVoucher()">📥 ပုံအဖြစ် သိမ်းမည် (Download)</button>
+
+    <div id="voucher-capture">
+        <div class="header">
+            <h1>🌴 တက်နေ 🌴</h1>
+            <p>ရေပေါ်အုတ်၊ အုတ်နီ၊ မြေပဲ၊ သဲ၊ ကျောက်၊ ဘိလပ်မြေ</p>
+            <p>အနောက်မြို့ပတ်လမ်း၊ ကူညီကုန်းလမ်းဆုံ၊ ချမ်းသာရပ်၊ တောင်ကြီးမြို့။</p>
+            <p>Ph: 09-429xxxxxx</p>
+        </div>
+
+        <div class="meta-row">
+            <span>Book No. <input type="text" class="input-line" style="width:40px;"></span>
+            <span>Date: <input type="text" value="26/02/2026" class="input-line" style="width:90px;"></span>
+        </div>
+
+        <div class="info-section">
+            <span style="white-space: nowrap;">အမည် -</span> 
+            <input type="text" class="input-line" style="flex-grow: 1;"> 
+            <span style="white-space: nowrap; margin-left: 5px;">ဖုန်း -</span> 
+            <input type="text" class="input-line" style="width:120px;">
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th width="10%">စဉ်</th>
+                    <th width="40%">အမျိုးအမည်</th>
+                    <th width="15%">ဦးရေ</th>
+                    <th width="15%">နှုန်း</th>
+                    <th width="20%">သင့်ငွေ</th>
+                </tr>
+            </thead>
+            <tbody id="item-list">
+                <script>
+                    for(let i=1; i<=6; i++) {
+                        document.write(`
+                            <tr>
+                                <td>${i}</td>
+                                <td><input type="text" class="t-input"></td>
+                                <td><input type="number" class="t-input qty" oninput="calculateRow(this)"></td>
+                                <td><input type="number" class="t-input price" oninput="calculateRow(this)"></td>
+                                <td style="font-weight:bold;"><span class="row-total"></span></td>
+                            </tr>
+                        `);
+                    }
+                </script>
+            </tbody>
+        </table>
+
+        <div class="footer">
+            <div>
+                <div class="order-no">№ <input type="text" value="000107" class="input-line" style="width:80px; color:#0047ab; border:none; font-size:22px; font-weight:bold; padding:0;"></div>
+                <div style="margin-top:30px; border-top:1.5px dotted #000; width:110px; text-align:center; font-size:13px; padding-top:3px;">လက်မှတ်</div>
+            </div>
+            
+            <table class="calc-table">
+                <tr><td>စုစုပေါင်း <span id="grand_total" class="res-val"></span></td></tr>
+                <tr><td>စရန်ငွေ <input type="number" id="deposit" class="res-val" oninput="updateBalance()"></td></tr>
+                <tr><td>ကျန်ငွေ <span id="balance" class="res-val" style="color:#d32f2f;"></span></td></tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function calculateRow(element) {
+            let row = element.parentElement.parentElement;
+            let qty = parseFloat(row.querySelector('.qty').value);
+            let price = parseFloat(row.querySelector('.price').value);
+            let display = row.querySelector('.row-total');
+            
+            if (!isNaN(qty) && !isNaN(price)) {
+                let total = qty * price;
+                display.innerText = total.toLocaleString();
+            } else {
+                display.innerText = "";
+            }
+            updateGrandTotal();
+        }
+
+        function updateGrandTotal() {
+            let rowTotals = document.querySelectorAll('.row-total');
+            let grandTotal = 0;
+            let hasData = false;
+            
+            rowTotals.forEach(span => {
+                let val = parseFloat(span.innerText.replace(/,/g, ''));
+                if (!isNaN(val)) {
+                    grandTotal += val;
+                    hasData = true;
+                }
+            });
+            
+            document.getElementById('grand_total').innerText = hasData ? grandTotal.toLocaleString() : "";
+            updateBalance();
+        }
+
+        function updateBalance() {
+            let totalStr = document.getElementById('grand_total').innerText.replace(/,/g, '');
+            let total = parseFloat(totalStr) || 0;
+            let deposit = parseFloat(document.getElementById('deposit').value) || 0;
+            let balance = total - deposit;
+            
+            document.getElementById('balance').innerText = (total > 0 || deposit > 0) ? balance.toLocaleString() : "";
+        }
+
+        function downloadVoucher() {
+            const btn = document.querySelector('.dl-btn');
+            btn.innerText = "Processing...";
+            const voucher = document.getElementById('voucher-capture');
+            
+            html2canvas(voucher, { scale: 3 }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'TakNay_Voucher.png';
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+                btn.innerText = "📥 ပုံအဖြစ် သိမ်းမည် (Download)";
+            });
+        }
+    </script>
+
+</body>
+</html>
