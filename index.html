@@ -2,81 +2,72 @@
 <html lang="my">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>တက်နေ - Final Fixed Voucher</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>တက်နေ - Mobile Universal Voucher</title>
     
     <link href="https://mmwebfonts.comquas.com/fonts/?font=pyidaungsu" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
             font-family: 'Pyidaungsu', serif; 
-            background: #2c3e50; 
+            background: #f0f2f5; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            padding: 20px; 
+            padding: 10px; 
             margin: 0;
+            overflow-x: hidden;
         }
         
         #voucher-capture { 
-            width: 420px; 
+            width: 100%;
+            max-width: 400px; /* ဖုန်း screen တိုင်းနဲ့ ဆံ့အောင် အကျယ်ကို ညှိထားပါတယ် */
             background: white; 
-            padding: 25px; 
+            padding: 20px; 
             border: 2px solid #0047ab; 
-            box-sizing: border-box;
         }
 
-        .header { text-align: center; color: #0047ab; margin-bottom: 5px; }
-        .header h1 { margin: 0; font-size: 32px; font-weight: bold; }
-        .header p { margin: 1px 0; font-size: 11px; font-weight: bold; line-height: 1.6; }
+        .header { text-align: center; color: #0047ab; }
+        .header h1 { margin: 0; font-size: 28px; font-weight: bold; }
+        .header p { margin: 1px 0; font-size: 10px; font-weight: bold; line-height: 1.5; }
 
-        .meta-row { display: flex; justify-content: space-between; margin-top: 15px; font-size: 13px; }
-        
-        .info-section { 
-            margin-top: 10px; 
-            display: flex; 
-            align-items: center; 
-            gap: 5px; 
-            font-size: 14px; 
-        }
+        .meta-row { display: flex; justify-content: space-between; margin-top: 10px; font-size: 12px; }
+        .info-section { margin-top: 8px; display: flex; align-items: center; gap: 5px; font-size: 13px; }
         
         .input-line { 
-            border: none; 
-            border-bottom: 1px dotted #000; 
-            outline: none; 
-            padding: 0 5px; 
-            font-family: 'Pyidaungsu', serif; 
-            font-size: 14px; 
-            background: transparent;
+            border: none; border-bottom: 1px dotted #000; outline: none; 
+            padding: 0 5px; font-family: 'Pyidaungsu', serif; 
+            font-size: 13px; background: transparent; width: 100%;
         }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; border: 2px solid #0047ab; }
-        th, td { border: 1.5px solid #0047ab; padding: 5px 2px; text-align: center; font-size: 13px; height: 30px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; border: 1.5px solid #0047ab; }
+        th, td { border: 1px solid #0047ab; padding: 4px 2px; text-align: center; font-size: 12px; height: 32px; }
         th { background: #e6f0ff; color: #0047ab; }
         
-        .t-input { width: 100%; border: none; text-align: center; outline: none; background: transparent; font-family: 'Pyidaungsu', serif; font-size: 14px; }
+        .t-input { width: 100%; border: none; text-align: center; outline: none; background: transparent; font-family: 'Pyidaungsu', serif; font-size: 13px; }
 
-        .footer { display: flex; justify-content: space-between; margin-top: 20px; align-items: flex-end; }
-        .order-no { color: #0047ab; font-size: 22px; font-weight: bold; }
+        .footer { display: flex; justify-content: space-between; margin-top: 15px; align-items: flex-end; }
+        .order-no { color: #0047ab; font-size: 18px; font-weight: bold; }
         
-        .calc-table { width: 170px; border: 2px solid #0047ab; }
-        .calc-table td { border: 1.2px solid #0047ab; text-align: left; padding: 5px 8px; font-weight: bold; font-size: 14px; }
-        .res-val { border: none; outline: none; text-align: right; width: 80px; float: right; font-weight: bold; background: transparent; font-family: 'Pyidaungsu', serif; }
+        .calc-table { width: 150px; border: 1.8px solid #0047ab; }
+        .calc-table td { border: 1px solid #0047ab; text-align: left; padding: 4px 6px; font-weight: bold; font-size: 13px; }
+        .res-val { border: none; outline: none; text-align: right; width: 65px; float: right; font-weight: bold; background: transparent; font-family: 'Pyidaungsu', serif; }
 
+        .btn-container { width: 100%; max-width: 400px; display: flex; justify-content: center; margin-bottom: 15px; }
         .dl-btn { 
-            background: #27ae60; color: white; border: none; padding: 12px 25px; 
-            border-radius: 50px; cursor: pointer; font-size: 16px; font-weight: bold;
-            margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            font-family: 'Pyidaungsu', serif;
+            background: #1a73e8; color: white; border: none; padding: 12px 0; width: 100%;
+            border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); font-family: 'Pyidaungsu', serif;
         }
-
-        @media print { .dl-btn { display: none; } }
     </style>
 </head>
 <body>
 
-    <button class="dl-btn" onclick="downloadVoucher()">📥 ပုံအဖြစ် သိမ်းမည် (Download)</button>
+    <div class="btn-container">
+        <button class="dl-btn" onclick="downloadVoucher()">📥 ပုံအဖြစ် သိမ်းမည် (Download Image)</button>
+    </div>
 
     <div id="voucher-capture">
         <div class="header">
@@ -87,15 +78,13 @@
         </div>
 
         <div class="meta-row">
-            <span>Book No. <input type="text" class="input-line" style="width:50px;"></span>
-            <span>Date: <input type="text" value="26/02/2026" class="input-line" style="width:90px;"></span>
+            <span>Book No. <input type="text" class="input-line" style="width:40px;"></span>
+            <span>Date: <input type="text" value="26/02/2026" class="input-line" style="width:85px;"></span>
         </div>
 
         <div class="info-section">
-            <span>အမည် -</span> 
-            <input type="text" class="input-line" style="flex-grow: 1;"> 
-            <span style="margin-left: 5px;">ဖုန်း -</span> 
-            <input type="text" class="input-line" style="width:130px;">
+            <span style="white-space:nowrap;">အမည် -</span> <input type="text" class="input-line"> 
+            <span style="white-space:nowrap; margin-left:5px;">ဖုန်း -</span> <input type="text" class="input-line" style="width:110px;">
         </div>
 
         <table>
@@ -108,15 +97,15 @@
                     <th width="20%">သင့်ငွေ</th>
                 </tr>
             </thead>
-            <tbody id="item-list">
+            <tbody>
                 <script>
                     for(let i=1; i<=6; i++) {
                         document.write(`
                             <tr>
                                 <td>${i}</td>
-                                <td><input type="text" class="t-input item-desc"></td>
-                                <td><input type="number" class="t-input qty" oninput="calculateRow(this)"></td>
-                                <td><input type="number" class="t-input price" oninput="calculateRow(this)"></td>
+                                <td><input type="text" class="t-input"></td>
+                                <td><input type="number" class="t-input qty" oninput="calculate(this)"></td>
+                                <td><input type="number" class="t-input price" oninput="calculate(this)"></td>
                                 <td style="font-weight:bold;"><span class="row-total"></span></td>
                             </tr>
                         `);
@@ -127,84 +116,77 @@
 
         <div class="footer">
             <div style="display: flex; flex-direction: column;">
-                <div class="order-no">№ <input type="text" value="000107" class="input-line" style="width:80px; color:#0047ab; border:none; font-size:24px; font-weight:bold; padding:0;"></div>
-                <div style="margin-top:35px; border-top:1.5px dotted #000; width:120px; text-align:center; font-size:14px; padding-top:5px;">ဝယ်ယူအားပေးမှုကို ကျေးဇူးတင်ပါသည်</div>
+                <div class="order-no">№ <input type="text" value="000107" class="input-line" style="width:70px; color:#0047ab; border:none; font-size:20px; font-weight:bold;"></div>
+                <div style="margin-top:25px; border-top:1px dotted #000; width:110px; text-align:center; font-size:11px; padding-top:4px;">အားပေးမှုကို ကျေးဇူးတင်ပါသည်</div>
             </div>
             
             <table class="calc-table">
                 <tr><td>စုစုပေါင်း <span id="grand_total" class="res-val"></span></td></tr>
                 <tr><td>စရန်ငွေ <input type="number" id="deposit" class="res-val" oninput="updateBalance()"></td></tr>
-                <tr><td>ကျန်ငွေ <span id="balance" class="res-val" style="color:#c0392b;"></span></td></tr>
+                <tr><td>ကျန်ငွေ <span id="balance" class="res-val" style="color:#d32f2f;"></span></td></tr>
             </table>
         </div>
     </div>
 
     <script>
-        function calculateRow(element) {
-            let row = element.parentElement.parentElement;
-            let qty = parseFloat(row.querySelector('.qty').value);
-            let price = parseFloat(row.querySelector('.price').value);
-            let display = row.querySelector('.row-total');
-            
-            if (!isNaN(qty) && !isNaN(price)) {
-                let total = qty * price;
-                display.innerText = total.toLocaleString();
-            } else {
-                display.innerText = "";
-            }
-            updateGrandTotal();
+        function calculate(el) {
+            let tr = el.closest('tr');
+            let q = parseFloat(tr.querySelector('.qty').value) || 0;
+            let p = parseFloat(tr.querySelector('.price').value) || 0;
+            let res = tr.querySelector('.row-total');
+            res.innerText = (q > 0 && p > 0) ? (q * p).toLocaleString() : "";
+            updateTotals();
         }
 
-        function updateGrandTotal() {
-            let rowTotals = document.querySelectorAll('.row-total');
-            let grandTotal = 0;
-            let hasData = false;
-            
-            rowTotals.forEach(span => {
-                let val = parseFloat(span.innerText.replace(/,/g, ''));
-                if (!isNaN(val)) {
-                    grandTotal += val;
-                    hasData = true;
-                }
+        function updateTotals() {
+            let total = 0;
+            document.querySelectorAll('.row-total').forEach(s => {
+                total += parseFloat(s.innerText.replace(/,/g, '')) || 0;
             });
-            
-            document.getElementById('grand_total').innerText = hasData ? grandTotal.toLocaleString() : "";
+            document.getElementById('grand_total').innerText = total > 0 ? total.toLocaleString() : "";
             updateBalance();
         }
 
         function updateBalance() {
-            let totalStr = document.getElementById('grand_total').innerText.replace(/,/g, '');
-            let total = parseFloat(totalStr) || 0;
-            let deposit = parseFloat(document.getElementById('deposit').value) || 0;
-            let balance = total - deposit;
-            
-            document.getElementById('balance').innerText = (total > 0 || deposit > 0) ? balance.toLocaleString() : "";
+            let t = parseFloat(document.getElementById('grand_total').innerText.replace(/,/g, '')) || 0;
+            let d = parseFloat(document.getElementById('deposit').value) || 0;
+            document.getElementById('balance').innerText = (t > 0 || d > 0) ? (t - d).toLocaleString() : "";
         }
 
-        function downloadVoucher() {
+        async function downloadVoucher() {
             const btn = document.querySelector('.dl-btn');
-            btn.innerText = "Processing...";
+            btn.innerText = "ခဏစောင့်ပါ...";
+            btn.disabled = true;
+
             const voucher = document.getElementById('voucher-capture');
+            // Input values တွေကို ပုံထဲပါအောင် attribute အဖြစ် ပြောင်းလဲခြင်း
+            voucher.querySelectorAll('input').forEach(i => i.setAttribute('value', i.value));
 
-            // အရေးကြီးဆုံးအပိုင်း- Input value များကို ပုံမဖမ်းခင် အသေပြောင်းလဲပေးခြင်း
-            const inputs = voucher.querySelectorAll('input');
-            inputs.forEach(input => {
-                input.setAttribute('value', input.value);
-            });
+            try {
+                const canvas = await html2canvas(voucher, {
+                    scale: 3,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: "#ffffff"
+                });
 
-            html2canvas(voucher, { 
-                scale: 3,
-                useCORS: true,
-                backgroundColor: "#ffffff"
-            }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = 'TakNay_Voucher.png';
-                link.href = canvas.toDataURL("image/png");
-                link.click();
-                btn.innerText = "📥 ပုံအဖြစ် သိမ်းမည် (Download)";
-            });
+                // Mobile browser တိုင်းမှာ အလုပ်လုပ်စေရန် Blob စနစ်သုံးခြင်း
+                canvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = 'TakNay_Voucher_' + Date.now() + '.png';
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    btn.innerText = "📥 ပုံအဖြစ် သိမ်းမည် (Download Image)";
+                    btn.disabled = false;
+                }, 'image/png');
+            } catch (e) {
+                alert("Download လုပ်ရာတွင် အမှားအယွင်းရှိပါသည်။");
+                btn.innerText = "📥 ပုံအဖြစ် သိမ်းမည် (Download Image)";
+                btn.disabled = false;
+            }
         }
     </script>
-
 </body>
 </html>
