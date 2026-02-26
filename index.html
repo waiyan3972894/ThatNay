@@ -3,60 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>တက်နေ - Permanent Fix Voucher</title>
+    <title>တက်နေ - Permanent Fix</title>
     
     <link href="https://mmwebfonts.comquas.com/fonts/?font=pyidaungsu" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
         * { box-sizing: border-box; }
-        body { font-family: 'Pyidaungsu', serif; background: #2c3e50; display: flex; flex-direction: column; align-items: center; padding: 15px; margin: 0; }
+        body { font-family: 'Pyidaungsu', serif; background: #222; display: flex; flex-direction: column; align-items: center; padding: 10px; margin: 0; }
         
-        #voucher-capture { width: 400px; background: white; padding: 20px; border: 2px solid #0047ab; }
+        #voucher-capture { width: 380px; background: white; padding: 20px; border: 2px solid #0047ab; color: black; }
         .header { text-align: center; color: #0047ab; margin-bottom: 5px; }
         .header h1 { margin: 0; font-size: 30px; }
-        .header p { margin: 1px 0; font-size: 11px; font-weight: bold; }
+        .header p { margin: 2px 0; font-size: 11px; font-weight: bold; line-height: 1.5; }
 
-        .meta-row { display: flex; justify-content: space-between; margin-top: 10px; font-size: 13px; }
+        .meta-row { display: flex; justify-content: space-between; margin-top: 15px; font-size: 13px; }
         .info-section { margin-top: 10px; display: flex; align-items: center; gap: 5px; font-size: 14px; }
-        .input-line { border: none; border-bottom: 1px dotted #000; outline: none; font-family: inherit; font-size: 14px; background: transparent; }
+        
+        /* Input များကို စာရိုက်ရလွယ်အောင်ထားခြင်း */
+        .input-line { border: none; border-bottom: 1px dotted #000; outline: none; font-family: inherit; font-size: 14px; background: transparent; color: black; }
+        
+        /* ပုံထုတ်တဲ့အခါ ပေါ်လာမယ့် စာသားပုံစံ */
+        .fixed-text { display: inline-block; font-family: 'Pyidaungsu', serif; color: black; border-bottom: 1px dotted #000; min-height: 20px; vertical-align: bottom; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 15px; border: 2px solid #0047ab; }
-        th, td { border: 1.5px solid #0047ab; padding: 6px 2px; text-align: center; font-size: 13px; height: 32px; }
+        th, td { border: 1.2px solid #0047ab; padding: 6px 2px; text-align: center; font-size: 13px; height: 35px; color: black; }
         th { background: #e6f0ff; color: #0047ab; }
-        .t-input { width: 100%; border: none; text-align: center; outline: none; background: transparent; font-family: inherit; font-size: 14px; }
+        
+        .t-input { width: 100%; border: none; text-align: center; outline: none; background: transparent; font-family: inherit; font-size: 14px; color: black; }
 
         .footer { display: flex; justify-content: space-between; margin-top: 20px; align-items: flex-end; }
-        .calc-table { width: 160px; border: 2px solid #0047ab; }
-        .calc-table td { border: 1px solid #0047ab; text-align: left; padding: 5px; font-weight: bold; font-size: 14px; }
-        .res-val { border: none; outline: none; text-align: right; width: 75px; float: right; font-weight: bold; background: transparent; }
+        .calc-table { width: 170px; border: 2px solid #0047ab; }
+        .calc-table td { border: 1.2px solid #0047ab; text-align: left; padding: 5px 8px; font-weight: bold; font-size: 14px; }
+        .res-val { border: none; outline: none; text-align: right; width: 80px; float: right; font-weight: bold; background: transparent; }
 
         .dl-btn { 
-            background: #27ae60; color: white; border: none; padding: 12px 0; width: 400px;
+            background: #28a745; color: white; border: none; padding: 12px; width: 380px;
             border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; margin-bottom: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2); font-family: inherit;
+            font-family: inherit;
         }
     </style>
 </head>
 <body>
 
-    <button class="dl-btn" onclick="downloadVoucher()">📥 ပုံအဖြစ် သိမ်းမည် (Download Image)</button>
+    <button class="dl-btn" onclick="saveVoucher()">📥 ပုံအဖြစ် သိမ်းမည် (Download Image)</button>
 
     <div id="voucher-capture">
         <div class="header">
             <h1>🌴 တက်နေ 🌴</h1>
             <p>ရေပေါ်အုတ်၊ အုတ်နီ၊ မြေပဲ၊ သဲ၊ ကျောက်၊ ဘိလပ်မြေ</p>
-            <p>တောင်ကြီးမြို့။ Ph: 09-429xxxxxx</p>
+            <p>အနောက်မြို့ပတ်လမ်း၊ တောင်ကြီးမြို့။ Ph: 09-429xxxxxx</p>
         </div>
 
         <div class="meta-row">
             <span>Book No. <input type="text" class="input-line" style="width:50px;"></span>
-            <span>Date: <input type="text" value="26/02/2026" class="input-line" style="width:95px;"></span>
+            <span>Date: <input type="text" value="26/02/2026" class="input-line" style="width:100px;"></span>
         </div>
 
         <div class="info-section">
-            <span>အမည် -</span> <input type="text" class="input-line" style="flex-grow: 1;"> 
-            <span>ဖုန်း -</span> <input type="text" class="input-line" style="width:120px;">
+            <span style="white-space:nowrap;">အမည် -</span> <input type="text" class="input-line" style="flex-grow: 1;"> 
+            <span style="white-space:nowrap; margin-left:5px;">ဖုန်း -</span> <input type="text" class="input-line" style="width:120px;">
         </div>
 
         <table>
@@ -73,14 +79,14 @@
         </table>
 
         <div class="footer">
-            <div>
-                <div style="color:#0047ab; font-size:20px; font-weight:bold;">№ <input type="text" value="000107" class="input-line" style="width:70px; border:none; font-weight:bold; color:#0047ab;"></div>
-                <div style="margin-top:35px; border-top:1px dotted #000; width:120px; text-align:center; font-size:12px; padding-top:4px;">အားပေးမှုကို ကျေးဇူးတင်ပါသည်</div>
+            <div style="display: flex; flex-direction: column;">
+                <div style="color:#0047ab; font-size:20px; font-weight:bold;">№ <input type="text" value="000107" class="input-line" style="width:70px; border:none; color:#0047ab;"></div>
+                <div style="margin-top:35px; border-top:1.5px dotted #000; width:120px; text-align:center; font-size:12px; padding-top:5px;">အားပေးမှုကို ကျေးဇူးတင်ပါသည်</div>
             </div>
             <table class="calc-table">
                 <tr><td>စုစုပေါင်း <span id="grand_total" class="res-val"></span></td></tr>
                 <tr><td>စရန်ငွေ <input type="number" id="deposit" class="res-val" oninput="updB()"></td></tr>
-                <tr><td>ကျန်ငွေ <span id="balance" class="res-val" style="color:#c0392b;"></span></td></tr>
+                <tr><td>ကျန်ငွေ <span id="balance" class="res-val" style="color:red;"></span></td></tr>
             </table>
         </div>
     </div>
@@ -105,37 +111,46 @@
             document.getElementById('balance').innerText = (t-d > 0 || d > 0) ? (t-d).toLocaleString() : "";
         }
 
-        async function downloadVoucher() {
+        async function saveVoucher() {
             const btn = document.querySelector('.dl-btn');
             const voucher = document.getElementById('voucher-capture');
             btn.innerText = "ပုံထုတ်နေသည်...";
+            btn.disabled = true;
 
-            // စာရိုက်ထားတဲ့ အကွက်တွေကို ပုံထဲပါအောင် စာသားအဖြစ် ခေတ္တပြောင်းလဲခြင်း
+            // *** စာသားတွေကို ပုံမဖမ်းခင် အသေပြောင်းလဲခြင်း ***
             const inputs = voucher.querySelectorAll('input');
-            const originalValues = [];
-            
+            const backups = [];
+
             inputs.forEach(input => {
-                originalValues.push({el: input, val: input.value});
-                let span = document.createElement('span');
+                const span = document.createElement('span');
                 span.innerText = input.value;
-                span.style.fontSize = getComputedStyle(input).fontSize;
-                span.style.fontFamily = getComputedStyle(input).fontFamily;
-                span.className = "temp-span";
+                span.className = "fixed-text";
+                span.style.width = input.offsetWidth + 'px';
+                span.style.textAlign = getComputedStyle(input).textAlign;
+                
+                backups.push({input: input, span: span});
                 input.style.display = 'none';
                 input.parentNode.insertBefore(span, input);
             });
 
-            const canvas = await html2canvas(voucher, { scale: 3, useCORS: true });
-            
-            // မူလ input များကို ပြန်ဖော်ခြင်း
-            voucher.querySelectorAll('.temp-span').forEach(s => s.remove());
-            inputs.forEach(input => input.style.display = '');
-
-            const link = document.createElement('a');
-            link.download = 'Voucher_' + Date.now() + '.png';
-            link.href = canvas.toDataURL("image/png");
-            link.click();
-            btn.innerText = "📥 ပုံအဖြစ် သိမ်းမည် (Download Image)";
+            // ပုံထုတ်ခြင်း
+            try {
+                const canvas = await html2canvas(voucher, { scale: 3, useCORS: true, backgroundColor: "#ffffff" });
+                const link = document.createElement('a');
+                link.download = 'Voucher_' + Date.now() + '.png';
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+            } catch (e) {
+                alert("Error: ပုံထုတ်မရပါ");
+            } finally {
+                // မူလအတိုင်း ပြန်ပြောင်းခြင်း
+                backups.forEach(b => {
+                    b.span.remove();
+                    b.input.style.display = '';
+                });
+                btn.innerText = "📥 ပုံအဖြစ် သိမ်းမည် (Download Image)";
+                btn.disabled = false;
+            }
         }
     </script>
 </body>
